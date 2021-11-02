@@ -1,4 +1,4 @@
-import {readdir} from 'node:fs/promises';
+import {opendir, stat} from 'node:fs/promises';
 import {homedir, type} from 'node:os';
 import {join} from 'node:path';
 import {env} from 'node:process';
@@ -60,18 +60,28 @@ export async function listDriveCertificates(): Promise<DriveCertificate[]> {
 
 	for (const savePaths of await listDriveSavePaths()) {
 		for (const savePath of savePaths.paths) {
-			for (const {isDirectory, name: issuerId} of await readdir(savePath, {withFileTypes: true})) { // eslint-disable-line no-await-in-loop
-				if (!isDirectory()) {
+			try {
+				if (!(await stat(savePath)).isDirectory()) {
+					continue;
+				}
+			} catch {
+				continue;
+			}
+
+			for await (const issuerIdDirent of await opendir(savePath)) { // eslint-disable-line no-await-in-loop
+				if (!issuerIdDirent.isDirectory()) {
 					continue;
 				}
 
+				const issuerId = issuerIdDirent.name;
 				const userCertificatesRoot = join(savePath, issuerId, 'USER');
 
-				for (const {isDirectory, name: distinguishedName} of await readdir(userCertificatesRoot, {withFileTypes: true})) { // eslint-disable-line no-await-in-loop
-					if (!isDirectory()) {
+				for await (const distinguishedNameDirent of await opendir(userCertificatesRoot)) { // eslint-disable-line no-await-in-loop
+					if (!distinguishedNameDirent.isDirectory()) {
 						continue;
 					}
 
+					const distinguishedName = distinguishedNameDirent.name;
 					const path = join(userCertificatesRoot, distinguishedName);
 
 					result.push({
