@@ -1,0 +1,41 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    steps:
+    - uses: actions/checkout@v2
+    - uses: github/codeql-action/init@v1
+      with:
+        languages: javascript
+    - uses: github/codeql-action/analyze@v1
+  fossa-scan:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: fossas/fossa-action@v1
+      with:
+        api-key: ${{secrets.fossaApiKey}}
+    - uses: fossas/fossa-action@v1
+      with:
+        api-key: ${{secrets.fossaApiKey}}
+        run-tests: true
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node-version: 15.x
+    - run: yarn install --frozen-lockfile
+    - run: yarn test

@@ -1,0 +1,46 @@
+{
+  "name": "@koalasign/storagelist",
+  "version": "1.0.0",
+  "description": "Scans for accredited certificate storages and the certificates in them",
+  "keywords": [
+    "kisa",
+    "npki",
+    "공동인증서",
+    "공인인증서"
+  ],
+  "bugs": {
+    "url": "https://github.com/KoalaSign/storagelist/issues",
+    "email": "koalasign@mcpepc.com"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "MCPE_PC",
+    "email": "maxpjh0528@naver.com",
+    "url": "https://www.mcpepc.com"
+  },
+  "funding": {
+    "type": "individual",
+    "url": "https://donate.mcpepc.me"
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "main": "dist/index.js",
+  "repository": "github:KoalaSign/storagelist",
+  "scripts": {
+    "test": "xo"
+  },
+  "type": "module",
+  "dependencies": {
+    "drivelist": "^9.2.4"
+  },
+  "devDependencies": {
+    "@tsconfig/recommended": "^1.0.1",
+    "@types/node": "^16.11.6",
+    "typescript": "^4.4.4",
+    "xo": "^0.46.3"
+  },
+  "engines": {
+    "node": ">=15.6.0"
+  }
+}
