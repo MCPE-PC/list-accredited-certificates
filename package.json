@@ -32,7 +32,7 @@
   },
   "type": "module",
   "dependencies": {
-    "drivelist": "^9.2.4"
+    "drivelist": "^10.0.0"
   },
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.1",
